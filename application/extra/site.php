@@ -1,7 +1,7 @@
 <?php
 
 return array (
-  'name' => 'FastAdmin',
+  'name' => 'fellazo',
   'beian' => '',
   'cdnurl' => '',
   'version' => '1.0.1',
@@ -16,9 +16,6 @@ return array (
   'categorytype' => 
   array (
     'default' => 'Default',
-    'page' => 'Page',
-    'article' => 'Article',
-    'test' => 'Test',
   ),
   'configgroup' => 
   array (
