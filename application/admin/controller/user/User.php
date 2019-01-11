@@ -1,6 +1,7 @@
 <?php
 
 namespace app\admin\controller\user;
+use app\common\model\Category as CategoryModel;
 
 use app\common\controller\Backend;
 
@@ -24,6 +25,7 @@ class User extends Backend
     {
         parent::_initialize();
         $this->model = model('User');
+        $this->view->assign('groupList', build_select('row[group_id]', \app\admin\model\UserGroup::column('id,name'), [], ['class' => 'form-control selectpicker']));
     }
 
     /**
@@ -75,4 +77,41 @@ class User extends Backend
         return parent::edit($ids);
     }
 
+    /**
+     * 添加
+     */
+    public function add()
+    {
+        if ($this->request->isPost()) {
+            $params = $this->request->post("row/a");
+            //固定密码 123456
+            $params['password'] = 'e60ec9fee807f57be89053b7d2b29f63';
+            $params['salt'] = 'GdSDhP';
+            if ($params) {
+                if ($this->dataLimit && $this->dataLimitFieldAutoFill) {
+                    $params[$this->dataLimitField] = $this->auth->id;
+                }
+                try {
+                    //是否采用模型验证
+                    if ($this->modelValidate) {
+                        $name = str_replace("\\model\\", "\\validate\\", get_class($this->model));
+                        $validate = is_bool($this->modelValidate) ? ($this->modelSceneValidate ? $name . '.add' : $name) : $this->modelValidate;
+                        $this->model->validate($validate);
+                    }
+                    $result = $this->model->allowField(true)->save($params);
+                    if ($result !== false) {
+                        $this->success();
+                    } else {
+                        $this->error($this->model->getError());
+                    }
+                } catch (\think\exception\PDOException $e) {
+                    $this->error($e->getMessage());
+                } catch (\think\Exception $e) {
+                    $this->error($e->getMessage());
+                }
+            }
+            $this->error(__('Parameter %s can not be empty', ''));
+        }
+        return $this->view->fetch();
+    }
 }
