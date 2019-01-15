@@ -8,7 +8,7 @@ use think\Cookie;
 use think\Hook;
 use think\Session;
 use think\Validate;
-
+use app\admin\model\Item;
 /**
  * 会员中心
  */
@@ -218,7 +218,7 @@ class User extends Frontend
             $uc = new \addons\ucenter\library\client\Client();
             $synchtml = $uc->uc_user_synlogout();
         }
-        $this->success(__('Logout successful') . $synchtml, url('user/index'));
+        $this->success(__('Logout successful') . $synchtml, url('/'));
     }
 
     /**
@@ -281,6 +281,43 @@ class User extends Frontend
             }
         }
         $this->view->assign('title', __('Change password'));
+        return $this->view->fetch();
+    }
+
+    protected function getOrderNumber($_itemid,$_payerid,$referid){
+        return date('y').date('m').date('d').substr('00' . $_itemid, -2).substr('000' . $_payerid, -3).substr('000' . $referid, -3).rand(10,99);
+    }
+
+    /**
+     * package
+     */
+    public function package(){
+        $user = $this->auth->getUser()->getData();
+        $model = new \app\admin\model\Item;
+        $itemData = $model->order('weigh','desc')->select();
+        $data = [];
+        foreach($itemData as $k=>$v){
+            $data[$k] = $v->getData();
+        }
+        if ($this->request->isPost()) {
+            $_buf['itemid'] = $this->request->post("item");
+            foreach($data as $k=>$v){
+                if($v['id']==$_buf['itemid']){
+                    $_buf['item'] = $v['item'];
+                    $_buf['pay'] = $_buf['price'] = $v['price'];
+                    $_buf['rate'] = $v['rate'];
+                    $_buf['shares'] = $v['shares'];
+                    break;
+                }
+            }
+            $_buf['payerid'] = $user['id'];
+            $_buf['payer'] = $user['nickname'];
+            $_buf['order'] = $this->getOrderNumber($_buf['itemid'],$user['id'],'0');
+            $order = new \app\admin\model\Order;
+            $order->save($_buf);
+        }
+        $this->view->assign('title', __('套餐订购'));
+        $this->view->assign('data', $data);
         return $this->view->fetch();
     }
 

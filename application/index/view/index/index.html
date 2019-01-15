@@ -28,18 +28,48 @@
 
     <body id="page-top">
 
-        <nav id="mainNav" class="navbar navbar-default navbar-fixed-top">
+        <!-- <nav id="mainNav" class="navbar navbar-default navbar-fixed-top" style="background-color:#222222;">
             <div class="container">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-menu">
                         <span class="sr-only">Toggle navigation</span><i class="fa fa-bars"></i>
                     </button>
-                    <!-- <a class="navbar-brand page-scroll" href="#page-top"><img src="__CDN__/assets/img/logo.png" style="width:200px;" alt=""></a> -->
+                    <a class="navbar-brand page-scroll" href="#page-top"><img src="__CDN__/assets/img/logo.png" style="width:200px;" alt=""></a>
                 </div>
 
                 <div class="collapse navbar-collapse" id="navbar-collapse-menu">
                     <ul class="nav navbar-nav navbar-right">
-                        <!-- <li><a href="https://www.fastadmin.net" target="_blank">{:__('Home')}</a></li> -->
+                        <li><a href="https://www.fellazo.local" target="_blank">{:__('Home')}</a></li>
+                        <li><a href="http://www.fellazo.local/index/user/index.html" target="_blank">{:__('Member')}</a></li>
+                        <li><a href="https://www.fastadmin.net/store.html" target="_blank">{:__('Store')}</a></li>
+                        <li><a href="https://www.fastadmin.net/wxapp.html" target="_blank">{:__('Wxapp')}</a></li>
+                        <li><a href="https://www.fastadmin.net/service.html" target="_blank">{:__('Services')}</a></li>
+                        <li><a href="https://www.fastadmin.net/download.html" target="_blank">{:__('Download')}</a></li>
+                        <li><a href="https://www.fastadmin.net/demo.html" target="_blank">{:__('Demo')}</a></li>
+                        <li><a href="https://www.fastadmin.net/donate.html" target="_blank">{:__('Donation')}</a></li>
+                        <li><a href="https://forum.fastadmin.net" target="_blank">{:__('Forum')}</a></li>
+                        <li><a href="https://doc.fastadmin.net" target="_blank">{:__('Docs')}</a></li>
+                    </ul>
+                </div>
+                <!- /.navbar-collapse -->
+            </div>
+            <!-- /.container-fluid -->
+        <!-- </nav>  -->
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#header-navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <!-- <a class="navbar-brand" href="{:url('/')}" style="padding:6px 15px;"><img src="__CDN__/assets/img/logo.png" style="height:40px;" alt=""></a> -->
+                </div>
+                <div class="collapse navbar-collapse" id="header-navbar">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="http://www.fellazo.local" target="_blank">{:__('Home')}</a></li>
+                        <!-- <li><a href="http://www.fellazo.local" target="_blank">{:__('Shares')}</a></li> -->
                         <!-- <li><a href="https://www.fastadmin.net/store.html" target="_blank">{:__('Store')}</a></li> -->
                         <!-- <li><a href="https://www.fastadmin.net/wxapp.html" target="_blank">{:__('Wxapp')}</a></li> -->
                         <!-- <li><a href="https://www.fastadmin.net/service.html" target="_blank">{:__('Services')}</a></li> -->
@@ -48,11 +78,30 @@
                         <!-- <li><a href="https://www.fastadmin.net/donate.html" target="_blank">{:__('Donation')}</a></li> -->
                         <!-- <li><a href="https://forum.fastadmin.net" target="_blank">{:__('Forum')}</a></li> -->
                         <!-- <li><a href="https://doc.fastadmin.net" target="_blank">{:__('Docs')}</a></li> -->
+                        <li class="dropdown">
+                            {if $user}
+                            <a href="{:url('user/index')}" class="dropdown-toggle" data-toggle="dropdown" style="padding-top: 10px;height: 50px;">
+                                <span class="avatar-img">{$user.username}&nbsp;<img src="{$user.avatar|cdnurl}" alt="" style="width:30px;height:30px;border-radius:30px;"></span>
+                            </a>
+                            {else /}
+                            <a href="{:url('user/index')}" class="dropdown-toggle" data-toggle="dropdown">{:__('User center')} <b class="caret"></b></a>
+                            {/if}
+                            <ul class="dropdown-menu">
+                                {if $user}
+                                <li><a href="{:url('user/index')}"><i class="fa fa-user-circle fa-fw"></i>{:__('User center')}</a></li>
+                                <li><a href="{:url('user/profile')}"><i class="fa fa-user-o fa-fw"></i>{:__('Profile')}</a></li>
+                                <li><a href="{:url('user/changepwd')}"><i class="fa fa-key fa-fw"></i>{:__('Change password')}</a></li>
+                                <li><a href="{:url('user/logout')}"><i class="fa fa-sign-out fa-fw"></i>{:__('Sign out')}</a></li>
+                                {else /}
+                                <li><a href="{:url('user/login')}"><i class="fa fa-sign-in fa-fw"></i> {:__('Sign in')}</a></li>
+                                <li><a href="{:url('user/register')}"><i class="fa fa-user-o fa-fw"></i> {:__('Sign up')}</a></li>
+                                {/if}
+
+                            </ul>
+                        </li>
                     </ul>
                 </div>
-                <!-- /.navbar-collapse -->
             </div>
-            <!-- /.container-fluid -->
         </nav>
 
         <header>
@@ -64,7 +113,7 @@
                                 <h1>FELLAZO</h1>
                                 <!-- <h3>{:__('The fastest framework based on ThinkPHP5 and Bootstrap')}</h3> -->
                                 <!-- <a href="{:url('admin/index/login')}" class="btn btn-warning btn-xl page-scroll">{:__('Go to Dashboard')}</a> -->
-                                <a href="{:url('index/user/index')}" class="btn btn-outline btn-xl page-scroll">{:__('Go to Member center')}|Member center</a>
+                                <!-- <a href="{:url('index/user/index')}" class="btn btn-outline btn-xl page-scroll">{:__('Go to Member center')}|Member center</a> -->
                             </div>
                         </div>
                     </div>
@@ -183,27 +232,27 @@
                 });
 
                 // 发送版本统计信息，请移除
-                try {
-                    var installed = localStorage.getItem("installed");
-                    if (!installed) {
-                        $.ajax({
-                            url: "{$Think.config.fastadmin.api_url}/statistics/installed",
-                            data: {
-                                version: "{:config('fastadmin.version')}",
-                                os: "{$Think.PHP_OS}",
-                                sapi: "{$Think.PHP_SAPI}",
-                                tpversion: "{$Think.THINK_VERSION}",
-                                phpversion: "{$Think.PHP_VERSION}",
-                                software: "{$Request.server.SERVER_SOFTWARE}",
-                                url: location.href,
-                            },
-                            dataType: 'jsonp',
-                        });
-                        localStorage.setItem("installed", true);
-                    }
-                } catch (e) {
+                // try {
+                //     var installed = localStorage.getItem("installed");
+                //     if (!installed) {
+                //         $.ajax({
+                //             url: "{$Think.config.fastadmin.api_url}/statistics/installed",
+                //             data: {
+                //                 version: "{:config('fastadmin.version')}",
+                //                 os: "{$Think.PHP_OS}",
+                //                 sapi: "{$Think.PHP_SAPI}",
+                //                 tpversion: "{$Think.THINK_VERSION}",
+                //                 phpversion: "{$Think.PHP_VERSION}",
+                //                 software: "{$Request.server.SERVER_SOFTWARE}",
+                //                 url: location.href,
+                //             },
+                //             dataType: 'jsonp',
+                //         });
+                //         localStorage.setItem("installed", true);
+                //     }
+                // } catch (e) {
 
-                }
+                // }
 
             });
         </script>

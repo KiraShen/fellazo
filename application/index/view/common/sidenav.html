@@ -9,3 +9,14 @@
     </ul>
     {:hook('user_sidenav_after')}
 </div>
+
+<div class="sidenav">
+    {:hook('user_sidenav_before')}
+    <ul class="list-group">
+        <li class="list-group-heading">{:__('Shares center')}</li>
+        <li class="list-group-item {:$config['actionname']=='shares'?'active':''}"> <a href="{:url('user/shares')}"><i class="fa fa-user-circle fa-fw"></i> {:__('Shares')}</a> </li>
+        <li class="list-group-item {:$config['actionname']=='order'?'active':''}"> <a href="{:url('user/order')}"><i class="fa fa-user-o fa-fw"></i> {:__('Order')}</a> </li>
+        <li class="list-group-item {:$config['actionname']=='package'?'active':''}"> <a href="{:url('user/package')}"><i class="fa fa-key fa-fw"></i> {:__('Package')}</a> </li>
+    </ul>
+    {:hook('user_sidenav_after')}
+</div>
